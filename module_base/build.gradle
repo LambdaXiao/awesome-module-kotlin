@@ -1,36 +1,48 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
-    compileSdkVersion 28
-
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        applicationId "app.android.module_base"
-        minSdkVersion 20
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner
 
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable rootProject.ext.android.releaseDebuggable
+            minifyEnabled rootProject.ext.android.releaseMinifyEnabled
+            zipAlignEnabled rootProject.ext.android.releaseZipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable rootProject.ext.android.debugDebuggable
+            minifyEnabled rootProject.ext.android.debugMinifyEnabled
+            zipAlignEnabled rootProject.ext.android.debugZipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
+    compileOptions {
+        sourceCompatibility rootProject.ext.java.sourceCompatibility
+        targetCompatibility rootProject.ext.java.targetCompatibility
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "androidx.appcompat:appcompat:$rootProject.ext.dependencies.appcompatVersion"
+    api "androidx.core:core-ktx:$rootProject.ext.dependencies.corektxVersion"
+    api "androidx.constraintlayout:constraintlayout:$rootProject.ext.dependencies.constraintlayoutVersion"
+    api "junit:junit:$rootProject.ext.dependencies.junitVersion"
+    api "androidx.test:runner:$rootProject.ext.dependencies.runnerVersion"
+    api "androidx.test.espresso:espresso-core:$rootProject.ext.dependencies.espressocoreVersion"
+    api "androidx.multidex:multidex:$rootProject.ext.dependencies.multidexVersion"
 }

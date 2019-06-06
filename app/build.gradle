@@ -4,30 +4,69 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def static releaseTime() {
+    return new Date().format("yyyyMMdd-HHmm", TimeZone.getTimeZone(TimeZone.getDefault().getID()))
+}
+
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
-        applicationId "app.android.awesome_module_kotlin"
-        minSdkVersion 20
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner
+        multiDexEnabled rootProject.ext.android.multiDexEnabled
+        flavorDimensions rootProject.ext.android.flavorDimensions
     }
+
+    signingConfigs {
+        release {
+            keyAlias rootProject.ext.sign.keyAlias
+            keyPassword rootProject.ext.sign.keyPassword
+            storeFile file(rootProject.ext.sign.storeFile)
+            storePassword rootProject.ext.sign.storePassword
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable rootProject.ext.android.releaseDebuggable
+            jniDebuggable rootProject.ext.android.releaseDebuggable
+            minifyEnabled rootProject.ext.android.releaseMinifyEnabled
+            shrinkResources rootProject.ext.android.releaseShrinkResources
+            zipAlignEnabled rootProject.ext.android.releaseZipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+        debug {
+            debuggable rootProject.ext.android.debugDebuggable
+            jniDebuggable rootProject.ext.android.debugDebuggable
+            minifyEnabled rootProject.ext.android.debugMinifyEnabled
+            shrinkResources rootProject.ext.android.debugShrinkResources
+            zipAlignEnabled rootProject.ext.android.debugZipAlignEnabled
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "module-v${defaultConfig.versionCode}-${defaultConfig.versionName}-${releaseTime()}.apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.java.sourceCompatibility
+        targetCompatibility rootProject.ext.java.targetCompatibility
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    if(!rootProject.ext.android.isModule) {
+        implementation project(':module_main')
+        implementation project(':module_login')
+        implementation project(':module_me')
+    }
 }

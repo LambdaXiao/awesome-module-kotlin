@@ -1,0 +1,71 @@
+ext {
+    android = [
+            //是否开启组件化
+            isModule                 : false,
+            applicationId            : "app.android.module",
+            compileSdkVersion        : 28,
+            minSdkVersion            : 19,
+            targetSdkVersion         : 28,
+            versionCode              : 1,
+            versionName              : "1.0.0",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
+            multiDexEnabled          : true,
+            flavorDimensions         : "versionCode",
+
+            releaseDebuggable        : false,
+            debugDebuggable          : true,
+            releaseShrinkResources   : true,
+            debugShrinkResources     : false,
+            releaseMinifyEnabled     : true,
+            debugMinifyEnabled       : false,
+            releaseZipAlignEnabled   : true,
+            debugZipAlignEnabled     : false
+
+    ]
+
+    java = [
+            "sourceCompatibility": JavaVersion.VERSION_1_8,
+            "targetCompatibility": JavaVersion.VERSION_1_8
+    ]
+
+    sign = [
+            "keyPassword"  : "123456",
+            "keyAlias"     : "xwh",
+            "storePassword": "123456",
+            "storeFile"    : "../module.jks"
+    ]
+
+    dependencies = [
+            "appcompatVersion"       : "1.0.2",
+            "constraintlayoutVersion": "1.1.3",
+            "runnerVersion"          : "1.2.0",
+            "espressocoreVersion"    : "3.2.0",
+            "corektxVersion"         : "1.0.2",
+            "multidexVersion"        : "2.0.1",
+            "junitVersion"           : "4.12"
+
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
