@@ -1,6 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
@@ -45,4 +52,6 @@ dependencies {
     api "androidx.test:runner:$rootProject.ext.dependencies.runnerVersion"
     api "androidx.test.espresso:espresso-core:$rootProject.ext.dependencies.espressocoreVersion"
     api "androidx.multidex:multidex:$rootProject.ext.dependencies.multidexVersion"
+    api "com.alibaba:arouter-api:1.4.1"
+    kapt "com.alibaba:arouter-compiler:1.2.2"
 }

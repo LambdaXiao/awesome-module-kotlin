@@ -5,9 +5,18 @@ if(rootProject.ext.android.isModule){
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    //如果资源文件有相同的名字，前面module的资源文件将替换后面的，Manifest会合并,因此在资源文件前面加前缀
+    //如果资源文件有相同的名字，前面module的资源文件将替换后面的，Manifest会合并,
+    // 因此在资源文件前面加前缀(注意：AS不会自动帮我们的资源名自动加上前缀，
+    // 原来写了这段代码之后，AS会约束我们定义资源时，要我们手动加上前缀，否则报错！！所以只是起约束作用！！)
     resourcePrefix "me_"
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -78,4 +87,5 @@ android {
 
 dependencies {
     implementation project(':module_base')
+    kapt "com.alibaba:arouter-compiler:1.2.2"
 }
