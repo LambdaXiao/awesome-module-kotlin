@@ -1,6 +1,6 @@
 ext {
     android = [
-            //是否开启组件化
+            //true：组件模式；false：集成模式
             isModule                 : false,
             applicationId            : "app.android.module",
             compileSdkVersion        : 28,

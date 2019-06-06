@@ -55,6 +55,20 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            if (rootProject.ext.android.isModule) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                //集成开发模式下排除module文件夹中的所有文件
+                java {
+                    exclude 'module/**'
+                }
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility rootProject.ext.java.sourceCompatibility
         targetCompatibility rootProject.ext.java.targetCompatibility
