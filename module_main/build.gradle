@@ -6,11 +6,6 @@ if (rootProject.ext.android.isModule) {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-}
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -41,24 +36,24 @@ android {
         release {
             debuggable rootProject.ext.android.releaseDebuggable
             jniDebuggable rootProject.ext.android.releaseDebuggable
-            minifyEnabled rootProject.ext.android.releaseMinifyEnabled
             zipAlignEnabled rootProject.ext.android.releaseZipAlignEnabled
             if (rootProject.ext.android.isModule) {
                 //Resource shrinker cannot be used for libraries
                 shrinkResources rootProject.ext.android.releaseShrinkResources
             }
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
             debuggable rootProject.ext.android.debugDebuggable
             jniDebuggable rootProject.ext.android.debugDebuggable
-            minifyEnabled rootProject.ext.android.debugMinifyEnabled
             zipAlignEnabled rootProject.ext.android.debugZipAlignEnabled
             if (rootProject.ext.android.isModule) {
                 //Resource shrinker cannot be used for libraries
                 shrinkResources rootProject.ext.android.debugShrinkResources
             }
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -85,7 +80,15 @@ android {
 
 }
 
+//配置arouter编译器参数，每个组件都需配置
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 dependencies {
     implementation project(':module_base')
-    kapt "com.alibaba:arouter-compiler:1.2.2"
+    //arouter编译器插件，每个组件都需引入
+    kapt "com.alibaba:arouter-compiler:$rootProject.ext.dependencies.arouterCompilerVersion"
 }

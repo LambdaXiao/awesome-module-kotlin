@@ -2,11 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-}
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -24,14 +19,14 @@ android {
     buildTypes {
         release {
             debuggable rootProject.ext.android.releaseDebuggable
-            minifyEnabled rootProject.ext.android.releaseMinifyEnabled
             zipAlignEnabled rootProject.ext.android.releaseZipAlignEnabled
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable rootProject.ext.android.debugDebuggable
-            minifyEnabled rootProject.ext.android.debugMinifyEnabled
             zipAlignEnabled rootProject.ext.android.debugZipAlignEnabled
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,6 +34,14 @@ android {
     compileOptions {
         sourceCompatibility rootProject.ext.java.sourceCompatibility
         targetCompatibility rootProject.ext.java.targetCompatibility
+    }
+
+}
+
+//配置arouter编译器参数，每个组件都需配置
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
     }
 }
 
@@ -52,6 +55,8 @@ dependencies {
     api "androidx.test:runner:$rootProject.ext.dependencies.runnerVersion"
     api "androidx.test.espresso:espresso-core:$rootProject.ext.dependencies.espressocoreVersion"
     api "androidx.multidex:multidex:$rootProject.ext.dependencies.multidexVersion"
-    api "com.alibaba:arouter-api:1.4.1"
-    kapt "com.alibaba:arouter-compiler:1.2.2"
+    //arouter api，只需在common组件中引入一次
+    api "com.alibaba:arouter-api:$rootProject.ext.dependencies.arouterApiVersion"
+    //arouter编译器插件，每个组件都需引入
+    kapt "com.alibaba:arouter-compiler:$rootProject.ext.dependencies.arouterCompilerVersion"
 }

@@ -13,6 +13,7 @@ class MeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_me)
+        //注入传递的参数
         ARouter.getInstance().inject(this)
         Toast.makeText(applicationContext, intent.extras.getString("param"), Toast.LENGTH_LONG).show()
     }

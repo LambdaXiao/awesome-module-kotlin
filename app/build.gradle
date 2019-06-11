@@ -34,18 +34,18 @@ android {
         release {
             debuggable rootProject.ext.android.releaseDebuggable
             jniDebuggable rootProject.ext.android.releaseDebuggable
-            minifyEnabled rootProject.ext.android.releaseMinifyEnabled
             shrinkResources rootProject.ext.android.releaseShrinkResources
             zipAlignEnabled rootProject.ext.android.releaseZipAlignEnabled
+            minifyEnabled rootProject.ext.android.releaseMinifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
             debuggable rootProject.ext.android.debugDebuggable
             jniDebuggable rootProject.ext.android.debugDebuggable
-            minifyEnabled rootProject.ext.android.debugMinifyEnabled
             shrinkResources rootProject.ext.android.debugShrinkResources
             zipAlignEnabled rootProject.ext.android.debugZipAlignEnabled
+            minifyEnabled rootProject.ext.android.debugMinifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -64,7 +64,7 @@ android {
 }
 
 dependencies {
-    if(!rootProject.ext.android.isModule) {
+    if (!rootProject.ext.android.isModule) {
         implementation project(':module_main')
         implementation project(':module_login')
         implementation project(':module_me')

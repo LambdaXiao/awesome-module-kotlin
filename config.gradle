@@ -1,6 +1,6 @@
 ext {
     android = [
-            //true：组件模式；false：集成模式
+            //true：组件模式，各组件可以单独运行；false：集成模式，只能运行或打包app module，也就是集成所有的module
             isModule                 : false,
             applicationId            : "app.android.module",
             compileSdkVersion        : 28,
@@ -42,7 +42,9 @@ ext {
             "espressocoreVersion"    : "3.2.0",
             "corektxVersion"         : "1.0.2",
             "multidexVersion"        : "2.0.1",
-            "junitVersion"           : "4.12"
+            "junitVersion"           : "4.12",
+            "arouterApiVersion"      : "1.4.1",
+            "arouterCompilerVersion" : "1.2.2"
 
     ]
 }
